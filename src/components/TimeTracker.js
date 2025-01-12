@@ -69,47 +69,62 @@ const TimeTracker = () => {
           placeholder="Hours"
           value={newEntry.hours}
           onChange={(e) => setNewEntry(prev => ({ ...prev, hours: e.target.value }))}
+          min="0"
+          step="0.5"
         />
         <input
           type="text"
-          placeholder="Project"
+          placeholder="Project Name"
           value={newEntry.project}
           onChange={(e) => setNewEntry(prev => ({ ...prev, project: e.target.value }))}
         />
         <input
           type="text"
-          placeholder="Description"
+          placeholder="What did you work on?"
           value={newEntry.description}
           onChange={(e) => setNewEntry(prev => ({ ...prev, description: e.target.value }))}
         />
       </div>
       
-      <button onClick={handleResetWeek} className="reset-week">Reset Week</button>
+      <button onClick={handleResetWeek} className="reset-week">
+        Reset Week
+      </button>
 
       <div className="days-container">
         {DAYS.map(day => (
           <div key={day} className="day-section">
             <div className="day-header">
               <h2>{day}</h2>
-              <button onClick={() => handleResetDay(day)}>Reset Day</button>
+              <button 
+                onClick={() => handleResetDay(day)} 
+                className="reset-day"
+              >
+                Reset Day
+              </button>
             </div>
-            <button onClick={() => handleAddEntry(day)} className="add-entry">
-              Add Entry
-            </button>
-            <div className="entries">
-              {timeEntries[day].map(entry => (
-                <div key={entry.id} className="entry">
-                  <span>{entry.hours}h</span>
-                  <span>{entry.project}</span>
-                  <span>{entry.description}</span>
-                  <button 
-                    onClick={() => handleDeleteEntry(day, entry.id)}
-                    className="delete-entry"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
+            <div className="entries-container">
+              <button 
+                onClick={() => handleAddEntry(day)} 
+                className="add-entry"
+              >
+                Add Time Entry
+              </button>
+              <div className="entries">
+                {timeEntries[day].map(entry => (
+                  <div key={entry.id} className="entry">
+                    <span>{entry.hours}h</span>
+                    <span>{entry.project}</span>
+                    <span>{entry.description}</span>
+                    <button 
+                      onClick={() => handleDeleteEntry(day, entry.id)}
+                      className="delete-entry"
+                      aria-label="Delete entry"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         ))}
